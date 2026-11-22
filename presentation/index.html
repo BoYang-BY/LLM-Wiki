@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="用 12 頁互動教材認識推薦系統、評估與冷啟動。">
+  <title>推薦系統：AI 如何讀懂你的喜好？</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="slides.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <a href="#slide-1" class="brand" data-go="1"><span aria-hidden="true" class="brand-mark"></span>RecSys LLM Wiki</a>
+  <label class="jump"><span>章節</span><select id="slide-picker" aria-label="跳到章節"><option value="1">01 · 生活情境與學習目標</option><option value="2">02 · 使用者偏好訊號</option><option value="3">03 · 使用者－物品資料矩陣</option><option value="4">04 · 候選生成、評分、重排序</option><option value="5">05 · 內容式推薦</option><option value="6">06 · 協同過濾與混合式推薦</option><option value="7">07 · 推薦系統評估</option><option value="8">08 · 冷啟動問題</option><option value="9">09 · 互動式推薦模擬器</option><option value="10">10 · 推薦系統倫理與挑戰</option><option value="11">11 · 概念測驗與答案解析</option><option value="12">12 · 重點整理與參考來源</option></select></label>
+</header>
+<noscript><p class="note">啟用 JavaScript 即可切換頁面、操作示範與作答。</p></noscript>
+<main id="deck">
+  <section class="slide slide-1" id="slide-1" aria-labelledby="title-1">
+    <p class="eyebrow">生活情境與學習目標</p>
+    <h1 id="title-1" tabindex="-1">推薦系統：AI 如何讀懂你的喜好？</h1>
+    <p class="goal"><span>學習目標</span>用一句話解釋推薦系統的用途，並認出偏好訊號、排序與冷啟動三個問題。</p>
+    <div class="shelf" aria-label="三種影音情境">
+<article><div class="poster star" aria-hidden="true"></div><div><small>Netflix · 電影情境</small><h3>今晚看哪部片？</h3></div></article>
+<article><div class="poster sound" aria-hidden="true"></div><div><small>Spotify · 音樂情境</small><h3>通勤聽哪首歌？</h3></div></article>
+<article><div class="poster screen" aria-hidden="true"></div><div><small>YouTube · 影片情境</small><h3>下一支看什麼？</h3></div></article></div>
+<div class="hero-question"><div><strong>為什麼會推薦這些內容？</strong><p>推薦系統（Recommender system）從許多選項中優先呈現你可能感興趣的內容。</p></div><button class="primary" type="button" data-go="2">開始學習</button></div>
+    <details class="sources"><summary>Wiki 依據</summary><div class="source-links"><a href="../wiki/topics/basics.md#三個生活情境">生活情境</a> · <a href="../wiki/topics/basics.md#三階段流程">三階段流程</a><span class="evidence"><a href="../wiki/sources/S01.md#evidence">S01</a> · <a href="../wiki/sources/S06.md#evidence">S06</a></span></div></details>
+  </section>
+  <section class="slide slide-2" id="slide-2" aria-labelledby="title-2" hidden>
+    <p class="eyebrow">使用者偏好訊號</p>
+    <h2 id="title-2" tabindex="-1">一次觀看，代表喜歡嗎？</h2>
+    <p class="goal"><span>學習目標</span>區分顯式與隱式回饋，說出同一個行為可能有不同解釋。</p>
+    <div class="workspace signal-lab">
+<div class="feature panel"><div class="poster star" aria-hidden="true"></div><div class="feature-copy"><h3>星港</h3><p>試著點開、看完或評分。每種動作在示範中記一筆。</p>
+<div class="choices" role="group" aria-label="模擬觀影行為"><button type="button" data-signal="click">點開電影</button><button type="button" data-signal="watch">看完電影</button><button type="button" data-signal="rate">給 5 分</button><button type="button" id="clear-signals">清除紀錄</button></div></div></div>
+<div class="panel signal-board" aria-label="訊號紀錄"><div><h3>隱式回饋 <small>Implicit feedback</small></h3><ul id="implicit-log" class="event-list"></ul></div><div><h3>顯式回饋 <small>Explicit feedback</small></h3><ul id="explicit-log" class="event-list"></ul></div><p class="readout" id="signal-detail" role="status">看完可能代表有興趣，也可能只是當下想看一部短片。</p></div></div>
+    <details class="sources"><summary>Wiki 依據</summary><div class="source-links"><a href="../wiki/topics/signals.md#使用者物品表示">資料矩陣</a> · <a href="../wiki/topics/signals.md#行為訊號">偏好訊號</a><span class="evidence"><a href="../wiki/sources/S02.md#evidence">S02</a> · <a href="../wiki/sources/S03.md#evidence">S03</a> · <a href="../wiki/sources/S07.md#evidence">S07</a></span></div></details>
+  </section>
+  <section class="slide slide-3" id="slide-3" aria-labelledby="title-3" hidden>
+    <p class="eyebrow">使用者－物品資料矩陣</p>
+    <h2 id="title-3" tabindex="-1">把一筆評分放進表格</h2>
+    <p class="goal"><span>學習目標</span>讀出一個使用者－物品矩陣的值，說明未知的格子代表什麼。</p>
+    <div class="workspace matrix-layout"><div class="panel matrix-panel"><h3>使用者－物品矩陣 <small>User–item matrix</small></h3><p>點選一個交會格，查看對應的互動。</p><table><caption class="sr-only">虛構的使用者電影評分</caption><thead><tr><th scope="col">使用者</th><th scope="col">星港</th><th scope="col">島嶼漫步</th><th scope="col">週末劇場</th></tr></thead>
+    <tbody><tr><th scope="row">小雨</th><td><button type="button" data-cell data-user="小雨" data-film="星港" data-score="5" aria-pressed="true" aria-label="小雨，《星港》，5 分">5</button></td><td><button type="button" data-cell data-user="小雨" data-film="島嶼漫步" data-score="4" aria-pressed="false" aria-label="小雨，《島嶼漫步》，4 分">4</button></td><td><button type="button" data-cell data-user="小雨" data-film="週末劇場" data-score="" aria-pressed="false" aria-label="小雨，《週末劇場》，未評">未評</button></td></tr><tr><th scope="row">小林</th><td><button type="button" data-cell data-user="小林" data-film="星港" data-score="5" aria-pressed="false" aria-label="小林，《星港》，5 分">5</button></td><td><button type="button" data-cell data-user="小林" data-film="島嶼漫步" data-score="" aria-pressed="false" aria-label="小林，《島嶼漫步》，未評">未評</button></td><td><button type="button" data-cell data-user="小林" data-film="週末劇場" data-score="4" aria-pressed="false" aria-label="小林，《週末劇場》，4 分">4</button></td></tr></tbody></table></div><div class="panel inspect"><p class="label">選取的互動</p><span id="cell-value" class="display-number">5</span><p id="cell-detail" role="status">小雨給《星港》5 分。這個格子有已知評分。</p><p class="note">未評表示沒有觀測到評分。當只有少量格子有值，就會出現資料稀疏（Data sparsity）。電影類型則是獨立的物品特徵。</p></div></div>
+    <details class="sources"><summary>Wiki 依據</summary><div class="source-links"><a href="../wiki/topics/signals.md#使用者物品表示">資料矩陣</a> · <a href="../wiki/topics/signals.md#資料稀疏">資料稀疏</a><span class="evidence"><a href="../wiki/sources/S02.md#evidence">S02</a> · <a href="../wiki/sources/S05.md#evidence">S05</a></span></div></details>
+  </section>
+  <section class="slide slide-4" id="slide-4" aria-labelledby="title-4" hidden>
+    <p class="eyebrow">候選生成、評分、重排序</p>
+    <h2 id="title-4" tabindex="-1">一份清單，經過三道處理</h2>
+    <p class="goal"><span>學習目標</span>依序解釋三階段，並指出 TensorFlow 教程聚焦哪一步。</p>
+    <div class="workspace flow-layout"><div class="flow-rail"><div class="choices" role="group" aria-label="推薦流程"><button type="button" data-choice="stage" data-value="retrieve" aria-pressed="true">1 候選生成</button><button type="button" data-choice="stage" data-value="score" aria-pressed="false">2 評分</button><button type="button" data-choice="stage" data-value="rerank" aria-pressed="false">3 重排序</button></div><div class="architecture"><p><strong>Google</strong>　候選生成、評分、重排序</p><p><strong>TensorFlow 教程</strong>　以檢索（Retrieval）和排序（Ranking）介紹，實作聚焦檢索，也就是第一步。</p></div></div>
+<div class="panel flow-board"><div class="board-head"><h3 id="stage-title"></h3><span class="tag">虛構片庫與分數</span></div><p id="stage-detail" role="status"></p><ol id="stage-list" class="stage-list"></ol></div></div>
+    <details class="sources"><summary>Wiki 依據</summary><div class="source-links"><a href="../wiki/topics/basics.md#三階段流程">三階段流程</a> · <a href="../wiki/topics/basics.md#檢索與排序的命名">檢索與排序的命名</a><span class="evidence"><a href="../wiki/sources/S01.md#evidence">S01</a> · <a href="../wiki/sources/S03.md#evidence">S03</a></span></div></details>
+  </section>
+  <section class="slide slide-5" id="slide-5" aria-labelledby="title-5" hidden>
+    <p class="eyebrow">內容式推薦</p>
+    <h2 id="title-5" tabindex="-1">你選的標籤，改變推薦</h2>
+    <p class="goal"><span>學習目標</span>用個人偏好與電影特徵解釋一筆內容式推薦。</p>
+    <div class="content-stage"><div class="board-head"><p>內容式推薦（Content-based recommendation）比對偏好和電影特徵。</p><div class="choices" role="group" aria-label="電影類型"><button type="button" data-choice="genre" data-value="科幻" aria-pressed="true">科幻</button><button type="button" data-choice="genre" data-value="紀錄片" aria-pressed="false">紀錄片</button><button type="button" data-choice="genre" data-value="喜劇" aria-pressed="false">喜劇</button></div></div>
+<div id="content-films" class="film-strip"><article class="film" data-genre="科幻"><div class="poster star" aria-hidden="true"></div><div class="film-copy"><span class="film-rank"></span><span class="tag">科幻</span><h3>星港</h3><p class="match-label"></p></div></article><article class="film" data-genre="紀錄片"><div class="poster island" aria-hidden="true"></div><div class="film-copy"><span class="film-rank"></span><span class="tag">紀錄片</span><h3>島嶼漫步</h3><p class="match-label"></p></div></article><article class="film" data-genre="喜劇"><div class="poster weekend" aria-hidden="true"></div><div class="film-copy"><span class="film-rank"></span><span class="tag">喜劇</span><h3>週末劇場</h3><p class="match-label"></p></div></article></div><p id="genre-detail" class="readout" role="status"></p></div>
+    <details class="sources"><summary>Wiki 依據</summary><div class="source-links"><a href="../wiki/topics/methods.md#內容式推薦">內容式推薦</a><span class="evidence"><a href="../wiki/sources/S04.md#evidence">S04</a></span></div></details>
+  </section>
+  <section class="slide slide-6" id="slide-6" aria-labelledby="title-6" hidden>
+    <p class="eyebrow">協同過濾與混合式推薦</p>
+    <h2 id="title-6" tabindex="-1">別人的互動，也能提供線索</h2>
+    <p class="goal"><span>學習目標</span>辨認多人互動的訊號，說出混合式推薦如何搭配策略。</p>
+    <div class="workspace graph-layout"><div class="panel graph-panel"><div class="board-head"><h3>互動關係圖</h3><span class="tag">虛構評分</span></div><p>點選使用者或電影，追蹤評分連線。</p><div id="relation-graph" class="relation-graph"></div><p id="graph-detail" class="readout" role="status"></p></div>
+<aside class="panel explanation"><h3>協同過濾 <small>Collaborative filtering</small></h3><p>小雨和小林在《星港》與《月台來信》都給了高分。兩段共同歷史提供相似性線索，於是小林喜歡的《週末劇場》可列為小雨的候選。</p><h3>混合式推薦 <small>Hybrid recommendation</small></h3><p>還可加入類型比對，例如將內容式和協同方法的分數加權。</p></aside></div>
+    <details class="sources"><summary>Wiki 依據</summary><div class="source-links"><a href="../wiki/topics/methods.md#協同過濾">協同過濾</a> · <a href="../wiki/topics/methods.md#混合式推薦">混合式推薦</a> · <a href="../wiki/topics/signals.md#使用者物品表示">資料矩陣</a><span class="evidence"><a href="../wiki/sources/S04.md#evidence">S04</a> · <a href="../wiki/sources/S05.md#evidence">S05</a></span></div></details>
+  </section>
+  <section class="slide slide-7" id="slide-7" aria-labelledby="title-7" hidden>
+    <p class="eyebrow">推薦系統評估</p>
+    <h2 id="title-7" tabindex="-1">進了前三名，就算命中嗎？</h2>
+    <p class="goal"><span>學習目標</span>判斷一次前 K 名命中，區分離線評估和線上 A/B 測試。</p>
+    <div class="workspace evaluation-layout"><div class="panel rank-board"><div class="board-head"><h3>四個候選，固定 K = 3</h3><div class="choices" role="group" aria-label="保留正例的位置"><button type="button" data-choice="rank" data-value="3" aria-pressed="true">正例排第 3</button><button type="button" data-choice="rank" data-value="4" aria-pressed="false">正例排第 4</button></div></div><ol id="rank-list" class="rank-demo-list"></ol></div>
+<aside class="panel test-board"><p class="label">前 K 名命中 · Hit@K（Top-K hit）</p><strong id="hit-number" class="display-number"></strong><p id="rank-detail" role="status"></p><div class="test-compare"><p><strong>離線評估</strong>（Offline evaluation）用歷史資料衡量。</p><p><strong>線上 A/B 測試</strong>（A/B testing）讓不同組使用不同版本，再比較預先選定的指標。</p><p class="secondary">Netflix 2015 年論文是先離線篩選、再做線上實驗的歷史案例。</p></div></aside></div>
+    <details class="sources"><summary>Wiki 依據</summary><div class="source-links"><a href="../wiki/topics/evaluation.md#前-k-名命中">前 K 名命中</a> · <a href="../wiki/topics/evaluation.md#離線與線上">離線與線上評估</a><span class="evidence"><a href="../wiki/sources/S02.md#evidence">S02</a> · <a href="../wiki/sources/S03.md#evidence">S03</a> · <a href="../wiki/sources/S06.md#evidence">S06</a></span></div></details>
+  </section>
+  <section class="slide slide-8" id="slide-8" aria-labelledby="title-8" hidden>
+    <p class="eyebrow">冷啟動問題</p>
+    <h2 id="title-8" tabindex="-1">資訊還不夠，從哪裡開始？</h2>
+    <p class="goal"><span>學習目標</span>指出新使用者與新物品各缺少的訊號，並提出一個起點。</p>
+    <div class="workspace cold-layout"><div class="panel cold-controls"><h3>選一個資料缺口</h3><div class="choices" role="group" aria-label="冷啟動情境"><button type="button" data-choice="cold" data-value="new-user" aria-pressed="true">新使用者</button><button type="button" data-choice="cold" data-value="new-film" aria-pressed="false">新電影</button></div><p id="cold-gap"></p><h3>試一種策略</h3><div id="cold-strategies"></div><button class="primary" type="button" data-go="9">前往推薦模擬器</button></div>
+<div class="panel cold-output"><div class="board-head"><h3 id="cold-title"></h3><span class="tag">教學情境</span></div><div id="cold-visual" class="cold-visual"></div><p id="cold-detail" class="readout" role="status"></p></div></div>
+    <details class="sources"><summary>Wiki 依據</summary><div class="source-links"><a href="../wiki/topics/cold-start.md#新使用者與新物品">冷啟動</a> · <a href="../wiki/topics/methods.md#內容式推薦">內容式推薦</a><span class="evidence"><a href="../wiki/sources/S04.md#evidence">S04</a> · <a href="../wiki/sources/S05.md#evidence">S05</a></span></div></details>
+  </section>
+  <section class="slide slide-9" id="slide-9" aria-labelledby="title-9" hidden>
+    <p class="eyebrow">互動式推薦模擬器</p>
+    <h2 id="title-9" tabindex="-1">換個偏好，誰排第一？</h2>
+    <p class="goal"><span>學習目標</span>用每部電影的推薦理由，解釋情境與偏好為何改變排名。</p>
+    <div class="workspace sim-layout"><div class="panel sim-controls"><h3>設定推薦條件</h3><p class="secondary">教學模擬 · 虛構電影與分數 · 固定排序規則</p>
+<label for="persona">使用者情境</label><select id="persona"><option value="A">A · 新使用者</option><option value="B">B · 已有偏好紀錄</option></select>
+<label for="preference">電影類型偏好</label><select id="preference"><option value="">使用情境預設</option><option>喜劇</option><option>科幻</option><option>紀錄片</option></select><p id="scenario-detail"></p><button type="button" id="reset-sim">重設目前情境</button></div>
+<div class="sim-results"><div class="board-head"><h3>推薦排序</h3><p id="sort-rule" role="status"></p></div><ol id="recommendations" class="film-strip"></ol></div></div>
+    <details class="sources"><summary>Wiki 依據</summary><div class="source-links"><a href="../wiki/topics/cold-start.md#教學模擬的兩種使用者">模擬規則</a> · <a href="../wiki/topics/methods.md#內容式推薦">內容式推薦</a><span class="evidence"><a href="../wiki/sources/S04.md#evidence">S04</a> · <a href="../wiki/sources/S05.md#evidence">S05</a> · <a href="../wiki/sources/S06.md#evidence">S06</a></span></div></details>
+  </section>
+  <section class="slide slide-10" id="slide-10" aria-labelledby="title-10" hidden>
+    <p class="eyebrow">推薦系統倫理與挑戰</p>
+    <h2 id="title-10" tabindex="-1">先被看見，更容易被點擊</h2>
+    <p class="goal"><span>學習目標</span>解釋回饋循環的可能影響，並辨認一項可檢查的設計目標。</p>
+    <div class="workspace ethic-layout"><div class="panel ethics-board"><div class="board-head"><h3>前三名的曝光機會</h3><div class="choices" role="group" aria-label="切換示意排序"><button type="button" data-choice="exposure" data-value="popular" aria-pressed="true">只排熱門度</button><button type="button" data-choice="exposure" data-value="diverse" aria-pressed="false">增加多樣性</button></div></div><ol id="exposure-list" class="exposure-list"></ol><p id="exposure-detail" class="readout" role="status"></p></div>
+<div class="panel loop-board"><h3>曝光如何影響回饋？</h3><ol class="loop"><li>清單決定展示</li><li>被展示才有點擊機會</li><li>點擊可能影響下一輪排序</li></ol><p class="loop-return">返回下一輪展示</p><p>這是曝光偏差（Exposure bias）的示意。還能檢查創作者曝光的公平性（Fairness），以及使用者是否能控制偏好（User agency）。</p><p class="secondary">清單與熱門度皆為虛構。</p></div></div>
+    <details class="sources"><summary>Wiki 依據</summary><div class="source-links"><a href="../wiki/topics/ethics.md#曝光與回饋">曝光與回饋</a> · <a href="../wiki/topics/ethics.md#誰的結果受到影響">多樣性、公平與控制</a><span class="evidence"><a href="../wiki/sources/S01.md#evidence">S01</a> · <a href="../wiki/sources/S06.md#evidence">S06</a> · <a href="../wiki/sources/S07.md#evidence">S07</a></span></div></details>
+  </section>
+  <section class="slide slide-11" id="slide-11" aria-labelledby="title-11" hidden>
+    <p class="eyebrow">概念測驗與答案解析</p>
+    <h2 id="title-11" tabindex="-1">把三個概念用一次</h2>
+    <p class="goal"><span>學習目標</span>完成三題，並能用資料、特徵或排序階段解釋答案。</p>
+    <div class="quiz-shell"><div class="board-head"><div id="quiz-tabs"><div class="choices" role="group" aria-label="選擇題目"><button type="button" data-choice="quiz" data-value="matrix" aria-pressed="true">1 資料</button><button type="button" data-choice="quiz" data-value="content" aria-pressed="false">2 方法</button><button type="button" data-choice="quiz" data-value="rerank" aria-pressed="false">3 流程</button></div></div><span id="quiz-count" role="status">已作答 0 / 3</span><button type="button" id="reset-quiz">重新作答</button></div><div class="quiz-grid"><article class="panel quiz" data-question="matrix"><h3>1. 《週末劇場》的評分格為空，代表什麼？</h3><div class="choices" role="group" aria-label="第 1 題答案"><button type="button" data-answer="0" aria-pressed="false">不喜歡</button><button type="button" data-answer="1" aria-pressed="false">未觀測</button></div><p class="feedback" role="status"></p><p class="quiz-source" hidden>回查 <a href="../wiki/topics/signals.md#使用者物品表示">資料矩陣</a></p></article><article class="panel quiz" data-question="content" hidden><h3>2. 依你選的科幻把《星港》排前，屬於哪種方法？</h3><div class="choices" role="group" aria-label="第 2 題答案"><button type="button" data-answer="0" aria-pressed="false">內容式推薦</button><button type="button" data-answer="1" aria-pressed="false">協同過濾</button></div><p class="feedback" role="status"></p><p class="quiz-source" hidden>回查 <a href="../wiki/topics/methods.md#內容式推薦">內容式推薦</a></p></article><article class="panel quiz" data-question="rerank" hidden><h3>3. 初排後換入紀錄片以增加類型變化，屬於哪一步？</h3><div class="choices" role="group" aria-label="第 3 題答案"><button type="button" data-answer="0" aria-pressed="false">候選生成</button><button type="button" data-answer="1" aria-pressed="false">重排序</button></div><p class="feedback" role="status"></p><p class="quiz-source" hidden>回查 <a href="../wiki/topics/basics.md#三階段流程">三階段流程</a></p></article></div></div>
+    <details class="sources"><summary>Wiki 依據</summary><div class="source-links"><a href="../wiki/topics/signals.md#使用者物品表示">資料矩陣</a> · <a href="../wiki/topics/methods.md#內容式推薦">內容式推薦</a> · <a href="../wiki/topics/basics.md#三階段流程">三階段流程</a><span class="evidence"><a href="../wiki/sources/S02.md#evidence">S02</a> · <a href="../wiki/sources/S04.md#evidence">S04</a> · <a href="../wiki/sources/S01.md#evidence">S01</a></span></div></details>
+  </section>
+  <section class="slide slide-12" id="slide-12" aria-labelledby="title-12" hidden>
+    <p class="eyebrow">重點整理與參考來源</p>
+    <h2 id="title-12" tabindex="-1">從一筆訊號，到一份清單</h2>
+    <p class="goal"><span>學習目標</span>用一句話串起偏好、候選與清單，再從 Wiki 找到一項主張的來源。</p>
+    <div class="workspace recap"><div class="panel knowledge"><h3>六大主題知識地圖</h3><p>選擇主題回看示範。</p><div class="map-grid"><button type="button" data-go="1"><strong>基礎與應用</strong><span>為什麼要推薦</span></button><button type="button" data-go="2"><strong>行為與資料</strong><span>偏好從哪裡來</span></button><button type="button" data-go="5"><strong>推薦方法</strong><span>如何比對或組合</span></button><button type="button" data-go="7"><strong>評估</strong><span>如何檢查結果</span></button><button type="button" data-go="8"><strong>冷啟動</strong><span>缺訊號如何起步</span></button><button type="button" data-go="10"><strong>倫理與挑戰</strong><span>誰被看見、誰能控制</span></button></div><p class="readout">從訊號到候選與清單，再用評估檢視效果。</p></div><div class="panel bibliography"><h3>參考來源</h3><ul><li><a href="../wiki/sources/S01.md#evidence">Google Developers · 推薦系統架構</a></li><li><a href="../wiki/sources/S02.md#evidence">GroupLens · MovieLens 100K</a></li><li><a href="../wiki/sources/S03.md#evidence">TensorFlow Recommenders · 電影檢索</a></li><li><a href="../wiki/sources/S04.md#evidence">Burke · 混合推薦分類與實驗</a></li><li><a href="../wiki/sources/S05.md#evidence">Çano 與 Morisio · 混合推薦回顧</a></li><li><a href="../wiki/sources/S06.md#evidence">Gomez-Uribe 與 Hunt · Netflix 2015</a></li><li><a href="../wiki/sources/S07.md#evidence">Stray 等人 · 推薦系統的人類價值</a></li></ul><p><a href="../wiki/index.md">Wiki 索引</a> · <a href="../sources/index.md">來源清冊</a></p></div></div>
+    <details class="sources"><summary>Wiki 依據</summary><div class="source-links"><a href="../wiki/topics/signals.md#行為訊號">偏好訊號</a> · <a href="../wiki/topics/basics.md#三階段流程">三階段流程</a> · <a href="../wiki/topics/cold-start.md#新使用者與新物品">冷啟動</a><span class="evidence"><a href="../wiki/sources/S01.md#evidence">S01</a> · <a href="../wiki/sources/S02.md#evidence">S02</a> · <a href="../wiki/sources/S03.md#evidence">S03</a> · <a href="../wiki/sources/S04.md#evidence">S04</a> · <a href="../wiki/sources/S05.md#evidence">S05</a> · <a href="../wiki/sources/S06.md#evidence">S06</a> · <a href="../wiki/sources/S07.md#evidence">S07</a></span></div></details>
+  </section>
+</main>
+<footer class="navigation" aria-label="簡報導覽">
+  <button type="button" id="prev" disabled>上一頁</button>
+  <div class="progress-area"><span id="page-count" aria-live="polite">01 / 12</span><progress id="progress" value="1" max="12" aria-label="簡報進度"></progress><span class="key-help">方向鍵切換</span></div>
+  <button type="button" id="next" class="primary">下一頁</button>
+</footer>
+</body>
+</html>

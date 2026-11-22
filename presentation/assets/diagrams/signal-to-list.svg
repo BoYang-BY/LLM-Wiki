@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 390">
+  <defs>
+    <linearGradient id="frame" x2="1" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#7bdcff"/><stop offset="1" stop-color="#a586ff"/></linearGradient>
+    <linearGradient id="screen" x2="1" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#192954"/><stop offset="1" stop-color="#231b4e"/></linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0v32" fill="none" stroke="#586399" opacity=".3"/></pattern>
+  </defs>
+  <rect x="12" y="12" width="516" height="366" rx="28" fill="#10172f" stroke="#343e67"/>
+  <rect x="13" y="13" width="514" height="364" rx="27" fill="url(#grid)"/>
+  <g fill="none" stroke="url(#frame)" stroke-width="2.6" opacity=".78">
+    <path d="M112 95h44q22 0 22 22v54q0 24 26 24h49"/>
+    <path d="M112 195h141"/>
+    <path d="M112 295h44q22 0 22-22v-54q0-24 26-24h49"/>
+    <circle cx="226" cy="195" r="16" fill="#19254a"/>
+    <circle cx="226" cy="195" r="5" fill="#83dfff"/>
+  </g>
+  <g fill="#232e57" stroke="#6375b5">
+    <rect x="44" y="67" width="68" height="56" rx="12"/>
+    <rect x="44" y="167" width="68" height="56" rx="12"/>
+    <rect x="44" y="267" width="68" height="56" rx="12"/>
+  </g>
+  <g fill="none" stroke="#baabff" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m78 80 4 10 11 1-8 7 2 11-9-5-9 5 2-11-8-7 11-1z"/>
+    <path d="m73 183 15 12-15 12z"/>
+    <path d="M66 296h24m-12-12v24"/>
+  </g>
+  <rect x="253" y="64" width="231" height="263" rx="19" fill="url(#screen)" stroke="url(#frame)" stroke-width="2"/>
+  <g fill="#7584b6"><circle cx="275" cy="84" r="3"/><circle cx="286" cy="84" r="3"/><circle cx="297" cy="84" r="3"/></g>
+  <g fill="#344271" stroke="#6577a9"><rect x="272" y="110" width="193" height="55" rx="9"/><rect x="272" y="174" width="193" height="55" rx="9"/><rect x="272" y="238" width="193" height="55" rx="9"/></g>
+  <rect x="284" y="121" width="42" height="33" rx="5" fill="#72d8ff"/><rect x="284" y="185" width="42" height="33" rx="5" fill="#a18af8"/><rect x="284" y="249" width="42" height="33" rx="5" fill="#8798e5"/>
+  <g stroke="#cbd6fa" stroke-width="4" stroke-linecap="round"><path d="M339 131h89m-89 13h56M339 195h74m-74 13h45M339 259h88m-88 13h60"/></g>
+</svg>

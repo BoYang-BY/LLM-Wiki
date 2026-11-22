@@ -1,0 +1,33 @@
+# Local settings and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+credentials.json
+secrets.json
+.netrc
+.vscode/
+.idea/
+.agents/
+.codex/
+.aws/
+private/
+
+# Raw source copies may carry redistribution restrictions
+/sources/raw/
+
+# OS, editor, and build artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.tmp
+*.bak
+*~
+*.log
+node_modules/
+dist/
+__pycache__/
